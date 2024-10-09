@@ -1,0 +1,534 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Ticketly",
+    "description": "A Movie Theatre Ticket booking System  ",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/bookTicket": {
+      "post": {
+        "tags": [
+          "TicketBooking"
+        ],
+        "summary": "Book Tickets",
+        "description": "This endpoint allows users to book tickets for a movie by providing their name, phone number, movie name, start time, and the number of tickets. A successful booking will return a 200 status code. In case of validation errors, a 422 status code will be returned along with details about the validation issues. Ensure that all required parameters are included in the request. For example, a successful response might look like: { 'message': 'Tickets booked successfully.' } If there are validation errors, the response could be: { 'detail': [{ 'loc': ['query', 'userName'], 'msg': 'field required', 'type': 'value_error.missing' }] }. Please refer to the API documentation for more details on the parameters and response formats.",
+        "operationId": "bookTicket_bookTicket_post",
+        "parameters": [
+          {
+            "name": "userName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Username"
+            }
+          },
+          {
+            "name": "userPhoneNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Userphonenumber"
+            }
+          },
+          {
+            "name": "movieName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Moviename"
+            }
+          },
+          {
+            "name": "movieStartTime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "title": "Moviestarttime"
+            }
+          },
+          {
+            "name": "numTickets",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Numtickets"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/updateMovieSlotForTicket": {
+      "post": {
+        "tags": [
+          "Update Ticket Timing"
+        ],
+        "summary": "Update a Ticket Time",
+        "description": "This endpoint allows users to update the timing of a movie ticket by providing the ticket ID, the new movie title, and the new start time. The request must include the following query parameters: 'ticketId' (string), 'newMovie' (string), and 'newStartTime' (date-time format). A successful response will return a status code of 200, indicating that the update was successful. In case of validation errors, a 422 status code will be returned along with details about the validation issues. For example, if the 'ticketId' is not found or the 'newStartTime' is in an incorrect format, the response will provide informative error messages to guide the user in correcting their request.",
+        "operationId": "updateMovieSlotForTicket_updateMovieSlotForTicket_post",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ticketid"
+            }
+          },
+          {
+            "name": "newMovie",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Newmovie"
+            }
+          },
+          {
+            "name": "newStartTime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "title": "Newstarttime"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getAllTicketsForMovieSlot": {
+      "post": {
+        "tags": [
+          "Ticket Details"
+        ],
+        "summary": "Get all Booked Tickets for a Movie Slot",
+        "description": "This endpoint retrieves all booked tickets for a specified movie slot. Users must provide the movie name and the start time of the movie in the query parameters. A successful request returns a list of tickets in JSON format. If the request fails due to validation errors, an informative error message will be provided, detailing the specific issues encountered. Example of a successful response: { 'tickets': [ { 'ticketId': '123', 'seatNumber': 'A1', 'customerName': 'John Doe' } ] }. For validation errors, the response may include details such as missing or incorrectly formatted parameters.",
+        "operationId": "getAllTicketsForMovieSlot_getAllTicketsForMovieSlot_post",
+        "parameters": [
+          {
+            "name": "movieName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Moviename"
+            }
+          },
+          {
+            "name": "movieStartTime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "title": "Moviestarttime"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getUserDetailsByTicketId": {
+      "post": {
+        "tags": [
+          "User Details"
+        ],
+        "summary": "User Details",
+        "description": "This endpoint retrieves user details based on the provided ticket ID. To use this operation, send a POST request with the 'ticketId' parameter included in the query string. A successful response will return user details in JSON format. If the request is invalid, a 422 Validation Error will be returned, detailing the specific validation issues encountered. For example, if the ticket ID is missing or incorrectly formatted, the response will indicate the nature of the validation error.",
+        "operationId": "getUserDetailsByTicketId_getUserDetailsByTicketId_post",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ticketid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cancelTicket": {
+      "post": {
+        "tags": [
+          " Cancel Tickets"
+        ],
+        "summary": "Cancel Tickets",
+        "description": "This endpoint allows users to cancel a ticket using the provided ticket ID. The request must include the 'ticketId' as a query parameter. A successful cancellation will return a 200 status code, while validation errors will return a 422 status code with details about the error. Ensure that the ticket ID is valid and exists in the system to avoid errors.",
+        "operationId": "cancelTicket_cancelTicket_post",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ticketid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expireTickets": {
+      "post": {
+        "tags": [
+          "Automated Ticket Expiry"
+        ],
+        "summary": "Make Tickets Expire",
+        "description": "This endpoint allows users to mark tickets as expired if the difference between the ticket's timestamp and the current time exceeds 8 hours. A successful request will return a 200 status code with an empty response body. In case of errors, such as a ticket not found or an invalid request, appropriate error messages will be provided to guide users on how to correct their requests. For example, a '404 Not Found' error indicates that the specified ticket does not exist, while a '400 Bad Request' error suggests that the request format is incorrect.",
+        "operationId": "expiretickets_expireTickets_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scheduleMovie": {
+      "post": {
+        "tags": [
+          "Movie Scheduler"
+        ],
+        "summary": "Movie Scheduler",
+        "description": "This endpoint allows users to add a movie to the schedule. It requires several parameters including 'slotName', 'slotDescription', 'startTime', 'endTime', 'slotType', and 'genre', all of which must be provided in the query. A successful request will return a 200 status code, indicating that the movie has been scheduled successfully. In case of validation errors, a 422 status code will be returned, along with details about the validation issues encountered. For more information on error handling, refer to the HTTPValidationError schema.",
+        "operationId": "scheduleMovie_scheduleMovie_post",
+        "parameters": [
+          {
+            "name": "slotName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slotname"
+            }
+          },
+          {
+            "name": "slotDescription",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slotdescription"
+            }
+          },
+          {
+            "name": "startTime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "title": "Starttime"
+            }
+          },
+          {
+            "name": "endTime",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "title": "Endtime"
+            }
+          },
+          {
+            "name": "slotType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/SlotType"
+            }
+          },
+          {
+            "name": "genre",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Genre"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getAllMovieSlots": {
+      "post": {
+        "tags": [
+          "Movie Slot Details"
+        ],
+        "summary": "Movie Slots",
+        "description": "This endpoint retrieves detailed information about all available movie slots. It allows users to filter movie slots by genre, providing a comprehensive overview of the options available. A successful response will return a JSON object containing the details of the movie slots. In case of errors, such as '404 Not Found' or '400 Bad Request', appropriate error messages will guide users on how to correct their requests. Example successful response: { 'slots': [ { 'id': 1, 'title': 'Inception', 'genre': 'Sci-Fi', 'time': '18:00' }, { 'id': 2, 'title': 'Titanic', 'genre': 'Romance', 'time': '20:00' } ] }. Please ensure that the request is properly formatted to avoid errors.",
+        "operationId": "getAllMovieSlotsByGenre_getAllMovieSlots_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getAllMovieSlotsByGenre": {
+      "post": {
+        "tags": [
+          "Movie Slot Details"
+        ],
+        "summary": "Movie Slots Genre",
+        "description": "This endpoint retrieves details of all movie slots categorized by genre. Users must provide a valid genre as a query parameter to obtain the relevant movie slot information. A successful response returns a JSON object containing the movie slots, while a validation error (HTTP 422) indicates issues with the provided genre, detailing the specific validation errors encountered. For example, if the genre is not recognized, the response will include an array of validation errors to guide the user in correcting their request.",
+        "operationId": "getAllMovieSlotsByGenre_getAllMovieSlotsByGenre_post",
+        "parameters": [
+          {
+            "name": "genre",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Genre"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Genre": {
+        "type": "string",
+        "enum": [
+          "Action",
+          "Adventure",
+          "Comedy",
+          "Crime",
+          "Drama",
+          "Fantasy",
+          "Historical",
+          "Historical Fiction",
+          "Horror",
+          "Magical Realism",
+          "Mystery",
+          "Philosophical",
+          "Political",
+          "Romance",
+          "Saga",
+          "Satire",
+          "Scifi",
+          "Social",
+          "Speculative",
+          "Thriller",
+          "Urban",
+          "Animation"
+        ],
+        "title": "Genre"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "SlotType": {
+        "type": "string",
+        "enum": [
+          "Movie",
+          "Documentary",
+          "Concert"
+        ],
+        "title": "SlotType"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
